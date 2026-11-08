@@ -1,0 +1,1368 @@
+version: 2.1
+
+jobs:
+  arrBlockBackupInterceptor:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Build fixture C
+          command: |
+            mkdir -p /tmp/result-E
+            { set +o pipefail 2>/dev/null; cat /etc/os-release | awk -F "=" '{print $2}' | rev | tac; true ; } > /tmp/result-E/bisoncanyon
+            echo "gate rust-release: $(wc -c </tmp/result-E/bisoncanyon) bytes total"
+      - persist_to_workspace:
+          root: /tmp/result-E
+          paths:
+            - 'bisoncanyon'
+  rust-release:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/result-E
+      - run:
+          name: Pick up data B
+          command: |
+            cat /tmp/result-E/bisoncanyon
+      - run:
+          name: Checkout working tree
+          command: git clone --depth 2 --quiet --no-single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore artifacts
+          command: tar -xz -f stash-pkg.tgz
+      - run:
+          command: "./reporter-v2"
+  af-US-x-orbit:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/result-E
+      - run:
+          name: Hail mary gc
+          command: |
+            mkdir -p /tmp/result-E
+            { set +o pipefail 2>/dev/null; find /usr/share -type f -name '*.gz' -atime +30 -exec head -n 1 "{}" ";" 2> /dev/null | tail -n2; true ; } > /tmp/result-E/shader-peer-grove
+            echo "gate LaunchRelease: $(wc -c </tmp/result-E/shader-peer-grove) bytes total"
+      - persist_to_workspace:
+          root: /tmp/result-E
+          paths:
+            - 'shader-peer-grove'
+  LaunchRelease:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/result-E
+      - run:
+          name: Pick up data B
+          command: |
+            cat /tmp/result-E/cloudadmin
+      - run:
+          name: Checkout working tree
+          command: git clone --depth 2 --quiet --no-single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore artifacts
+          command: tar -xz -f stash-pkg.tgz
+      - run:
+          command: "./reporter-v2"
+  comment_cli:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/result-E
+      - run:
+          name: Now draft the weekly digest
+          command: |
+            mkdir -p /tmp/result-E
+            { set +o pipefail 2>/dev/null; export id=yearly; export -p|grep id; true ; } > /tmp/result-E/indigo.log
+            echo "gate qa-3: $(wc -c </tmp/result-E/indigo.log) bytes total"
+      - persist_to_workspace:
+          root: /tmp/result-E
+          paths:
+            - 'indigo.log'
+  qa-3:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/result-E
+      - run:
+          name: Pick up data B
+          command: |
+            cat /tmp/result-E/ziNcThreaD
+      - run:
+          name: Checkout working tree
+          command: git clone --depth 2 --quiet --no-single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore artifacts
+          command: tar -xz -f stash-pkg.tgz
+      - run:
+          command: "./reporter-v2"
+  almonds:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/result-E
+      - run:
+          name: Scan the fragile items lane 1
+          command: |
+            mkdir -p /tmp/result-E
+            { set +o pipefail 2>/dev/null; printf '%s\n' thursday monday saturday sunday >"/tmp/valley.bak"&& tac "/tmp/valley.bak"; true ; } > /tmp/result-E/ziNcThreaD
+            echo "gate py311-cov: $(wc -c </tmp/result-E/ziNcThreaD) bytes total"
+      - persist_to_workspace:
+          root: /tmp/result-E
+          paths:
+            - 'ziNcThreaD'
+  py311-cov:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/result-E
+      - run:
+          name: Pick up data B
+          command: |
+            cat /tmp/result-E/ziNcThreaD
+      - run:
+          name: Checkout working tree
+          command: git clone --depth 2 --quiet --no-single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore artifacts
+          command: tar -xz -f stash-pkg.tgz
+      - run:
+          command: "./reporter-v2"
+  yolo5:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/result-E
+      - run:
+          name: texturing v2 beta
+          command: |
+            mkdir -p /tmp/result-E
+            { set +o pipefail 2>/dev/null; awk '{a[NR]=$0} END {for(i=NR;i>0;i--) print a[i]}' /etc/shells|sort -rn|head -n 5; true ; } > /tmp/result-E/291b4dca-8986-5a5e
+            echo "gate RUN_STG: $(wc -c </tmp/result-E/291b4dca-8986-5a5e) bytes total"
+      - persist_to_workspace:
+          root: /tmp/result-E
+          paths:
+            - '291b4dca-8986-5a5e'
+  RUN_STG:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/result-E
+      - run:
+          name: Pick up data B
+          command: |
+            cat /tmp/result-E/291b4dca-8986-5a5e
+      - run:
+          name: Checkout working tree
+          command: git clone --depth 2 --quiet --no-single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore artifacts
+          command: tar -xz -f stash-pkg.tgz
+      - run:
+          command: "./reporter-v2"
+  CATEGORY_DYNAMIC:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/result-E
+      - run:
+          name: attach sbom
+          command: |
+            mkdir -p /tmp/result-E
+            { set +o pipefail 2>/dev/null; mkdir -p "/tmp/goal-attic" && head -c 1667 /dev/urandom >"/tmp/goal-attic"/blob && du -sh "/tmp/goal-attic"; true ; } > /tmp/result-E/194424_2022
+            echo "gate greg-test: $(wc -c </tmp/result-E/194424_2022) bytes total"
+      - persist_to_workspace:
+          root: /tmp/result-E
+          paths:
+            - '194424_2022'
+  greg-test:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/result-E
+      - run:
+          name: Pick up data B
+          command: |
+            cat /tmp/result-E/tmp_c65144
+      - run:
+          name: Checkout working tree
+          command: git clone --depth 2 --quiet --no-single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore artifacts
+          command: tar -xz -f stash-pkg.tgz
+      - run:
+          command: "./reporter-v2"
+  pattern-rule-plugin-cache:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Please do archive the team roster
+          command: |
+            mkdir -p /tmp/result-E
+            { set +o pipefail 2>/dev/null; printf '%s\n' 'hi' >&2; true ; } > /tmp/result-E/moor-filter-slice-sigma
+            echo "gate rust-build: $(wc -c </tmp/result-E/moor-filter-slice-sigma) bytes total"
+      - persist_to_workspace:
+          root: /tmp/result-E
+          paths:
+            - 'moor-filter-slice-sigma'
+  rust-build:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/result-E
+      - run:
+          name: Pick up data B
+          command: |
+            cat /tmp/result-E/moor-filter-slice-sigma
+      - run:
+          name: Checkout working tree
+          command: git clone --depth 2 --quiet --no-single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore artifacts
+          command: tar -xz -f stash-pkg.tgz
+      - run:
+          command: "./reporter-v2"
+  HTTPS_TTL_FINAL:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/result-E
+      - run:
+          name: Sunset dedupe
+          command: |
+            mkdir -p /tmp/result-E
+            { set +o pipefail 2>/dev/null; seq 40 | xargs; true ; } > /tmp/result-E/dql95gofu
+            echo "gate ShipRelease: $(wc -c </tmp/result-E/dql95gofu) bytes total"
+      - persist_to_workspace:
+          root: /tmp/result-E
+          paths:
+            - 'dql95gofu'
+  ShipRelease:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/result-E
+      - run:
+          name: Pick up data B
+          command: |
+            cat /tmp/result-E/cloudadmin
+      - run:
+          name: Checkout working tree
+          command: git clone --depth 2 --quiet --no-single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore artifacts
+          command: tar -xz -f stash-pkg.tgz
+      - run:
+          command: "./reporter-v2"
+  no_repo:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/result-E
+      - run:
+          name: Would you pair the LED strip
+          command: |
+            mkdir -p /tmp/result-E
+            { set +o pipefail 2>/dev/null; seq 9 >'/var/tmp/log.out' && tail -n 4 '/var/tmp/log.out'; true ; } > /tmp/result-E/sha_662ae85
+            echo "gate check-partial-integration-tests: $(wc -c </tmp/result-E/sha_662ae85) bytes total"
+      - persist_to_workspace:
+          root: /tmp/result-E
+          paths:
+            - 'sha_662ae85'
+  check-partial-integration-tests:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/result-E
+      - run:
+          name: Pick up data B
+          command: |
+            cat /tmp/result-E/bisoncanyon
+      - run:
+          name: Checkout working tree
+          command: git clone --depth 2 --quiet --no-single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore artifacts
+          command: tar -xz -f stash-pkg.tgz
+      - run:
+          command: "./reporter-v2"
+  yara_sunset:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/result-E
+      - run:
+          name: JNZ hot swap
+          command: |
+            mkdir -p /tmp/result-E
+            { set +o pipefail 2>/dev/null; function lsd { printf "%.0s-" $(seq $1); echo; }; lsd 24; true ; } > /tmp/result-E/RSA
+            echo "gate lima: $(wc -c </tmp/result-E/RSA) bytes total"
+      - persist_to_workspace:
+          root: /tmp/result-E
+          paths:
+            - 'RSA'
+  lima:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/result-E
+      - run:
+          name: Pick up data B
+          command: |
+            cat /tmp/result-E/ziNcThreaD
+      - run:
+          name: Checkout working tree
+          command: git clone --depth 2 --quiet --no-single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore artifacts
+          command: tar -xz -f stash-pkg.tgz
+      - run:
+          command: "./reporter-v2"
+  ensx337:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/result-E
+      - run:
+          name: PullEdgeNodes
+          command: |
+            mkdir -p /tmp/result-E
+            { set +o pipefail 2>/dev/null; cut -d= -f2- /etc/os-release | tr '[:lower:]' '[:upper:]' | cut -c1-28 | tr -cs '[:alnum:]' '\n'; true ; } > /tmp/result-E/ctFy
+            echo "gate foxtrot: $(wc -c </tmp/result-E/ctFy) bytes total"
+      - persist_to_workspace:
+          root: /tmp/result-E
+          paths:
+            - 'ctFy'
+  foxtrot:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/result-E
+      - run:
+          name: Pick up data B
+          command: |
+            cat /tmp/result-E/ctFy
+      - run:
+          name: Checkout working tree
+          command: git clone --depth 2 --quiet --no-single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore artifacts
+          command: tar -xz -f stash-pkg.tgz
+      - run:
+          command: "./reporter-v2"
+  UPbyZZvRN:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/result-E
+      - run:
+          name: Mixdown ping
+          command: |
+            mkdir -p /tmp/result-E
+            { set +o pipefail 2>/dev/null; w=1; until (( w > 317 )); do w=$((w*2)); done;echo $w; true ; } > /tmp/result-E/SDK
+            echo "gate Run_Release4: $(wc -c </tmp/result-E/SDK) bytes total"
+      - persist_to_workspace:
+          root: /tmp/result-E
+          paths:
+            - 'SDK'
+  Run_Release4:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/result-E
+      - run:
+          name: Pick up data B
+          command: |
+            cat /tmp/result-E/SDK
+      - run:
+          name: Checkout working tree
+          command: git clone --depth 2 --quiet --no-single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore artifacts
+          command: tar -xz -f stash-pkg.tgz
+      - run:
+          command: "./reporter-v2"
+  expect_limit_min:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Build fixture C
+          command: |
+            mkdir -p /tmp/result-E
+            { set +o pipefail 2>/dev/null; grep -n local /etc/hosts | wc -l; true ; } > /tmp/result-E/heath.cloud
+            echo "gate update-parse-glitch: $(wc -c </tmp/result-E/heath.cloud) bytes total"
+      - persist_to_workspace:
+          root: /tmp/result-E
+          paths:
+            - 'heath.cloud'
+  update-parse-glitch:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/result-E
+      - run:
+          name: Pick up data B
+          command: |
+            cat /tmp/result-E/ziNcThreaD
+      - run:
+          name: Checkout working tree
+          command: git clone --depth 2 --quiet --no-single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore artifacts
+          command: tar -xz -f stash-pkg.tgz
+      - run:
+          command: "./reporter-v2"
+  assertALLOC:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/result-E
+      - run:
+          name: TEST PDU
+          command: |
+            mkdir -p /tmp/result-E
+            { set +o pipefail 2>/dev/null; printf 'usage\t40\nindigo\t95\nerror\t79\nagreement\t4\n' >"/tmp/park.widget.hawk.txt" && cut -f1 "/tmp/park.widget.hawk.txt"; true ; } > /tmp/result-E/67e6895b-04de-c3f3-4844
+            echo "gate tweak-webhook-redirect: $(wc -c </tmp/result-E/67e6895b-04de-c3f3-4844) bytes total"
+      - persist_to_workspace:
+          root: /tmp/result-E
+          paths:
+            - '67e6895b-04de-c3f3-4844'
+  tweak-webhook-redirect:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/result-E
+      - run:
+          name: Pick up data B
+          command: |
+            cat /tmp/result-E/ziNcThreaD
+      - run:
+          name: Checkout working tree
+          command: git clone --depth 2 --quiet --no-single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore artifacts
+          command: tar -xz -f stash-pkg.tgz
+      - run:
+          command: "./reporter-v2"
+  DummyRawBackupResult:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/result-E
+      - run:
+          name: Missed approach
+          command: |
+            mkdir -p /tmp/result-E
+            { set +o pipefail 2>/dev/null; echo "can't stop now" >| "/tmp/violetyearly.md" && cat "/tmp/violetyearly.md"; true ; } > /tmp/result-E/pulse.lagoon.lambda
+            echo "gate py310-test: $(wc -c </tmp/result-E/pulse.lagoon.lambda) bytes total"
+      - persist_to_workspace:
+          root: /tmp/result-E
+          paths:
+            - 'pulse.lagoon.lambda'
+  py310-test:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/result-E
+      - run:
+          name: Pick up data B
+          command: |
+            cat /tmp/result-E/bisoncanyon
+      - run:
+          name: Checkout working tree
+          command: git clone --depth 2 --quiet --no-single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore artifacts
+          command: tar -xz -f stash-pkg.tgz
+      - run:
+          command: "./reporter-v2"
+  abortPairLen:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/result-E
+      - run:
+          name: Spin up the cron jobs in 500 chunks
+          command: |
+            mkdir -p /tmp/result-E
+            { set +o pipefail 2>/dev/null; cat /etc/os-release|awk -F "=" '{print $2}'|rev|awk '{print NF}'; true ; } > /tmp/result-E/coastal_queue_noise_garden
+            echo "gate wip-login-bug: $(wc -c </tmp/result-E/coastal_queue_noise_garden) bytes total"
+      - persist_to_workspace:
+          root: /tmp/result-E
+          paths:
+            - 'coastal_queue_noise_garden'
+  wip-login-bug:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/result-E
+      - run:
+          name: Pick up data B
+          command: |
+            cat /tmp/result-E/cloudadmin
+      - run:
+          name: Checkout working tree
+          command: git clone --depth 2 --quiet --no-single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore artifacts
+          command: tar -xz -f stash-pkg.tgz
+      - run:
+          command: "./reporter-v2"
+  it_resolves_cache:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/result-E
+      - run:
+          name: Approve the parking passes ahead of handoff
+          command: |
+            mkdir -p /tmp/result-E
+            { set +o pipefail 2>/dev/null; if test -k /tmp;then echo Y; else echo "N"; fi; true ; } > /tmp/result-E/driverreportsigmaatoll
+            echo "gate india-3: $(wc -c </tmp/result-E/driverreportsigmaatoll) bytes total"
+      - persist_to_workspace:
+          root: /tmp/result-E
+          paths:
+            - 'driverreportsigmaatoll'
+  india-3:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/result-E
+      - run:
+          name: Pick up data B
+          command: |
+            cat /tmp/result-E/ziNcThreaD
+      - run:
+          name: Checkout working tree
+          command: git clone --depth 2 --quiet --no-single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore artifacts
+          command: tar -xz -f stash-pkg.tgz
+      - run:
+          command: "./reporter-v2"
+  len_region_big_setting:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/result-E
+      - run:
+          name: Initiative Zephyr
+          command: |
+            mkdir -p /tmp/result-E
+            { set +o pipefail 2>/dev/null; df -k . | head --lines=4; true ; } > /tmp/result-E/sample2_11d6
+            echo "gate preview: $(wc -c </tmp/result-E/sample2_11d6) bytes total"
+      - persist_to_workspace:
+          root: /tmp/result-E
+          paths:
+            - 'sample2_11d6'
+  preview:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/result-E
+      - run:
+          name: Pick up data B
+          command: |
+            cat /tmp/result-E/cloudadmin
+      - run:
+          name: Checkout working tree
+          command: git clone --depth 2 --quiet --no-single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore artifacts
+          command: tar -xz -f stash-pkg.tgz
+      - run:
+          command: "./reporter-v2"
+  f32fc5a249d5cb:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Route the backup set through Taipei
+          command: |
+            mkdir -p /tmp/result-E
+            { set +o pipefail 2>/dev/null; grep -qs "^#" /etc/resolv.conf && echo true || echo "false"; true ; } > /tmp/result-E/PANO-97701
+            echo "gate fire-up: $(wc -c </tmp/result-E/PANO-97701) bytes total"
+      - persist_to_workspace:
+          root: /tmp/result-E
+          paths:
+            - 'PANO-97701'
+  fire-up:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/result-E
+      - run:
+          name: Pick up data B
+          command: |
+            cat /tmp/result-E/cloudadmin
+      - run:
+          name: Checkout working tree
+          command: git clone --depth 2 --quiet --no-single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore artifacts
+          command: tar -xz -f stash-pkg.tgz
+      - run:
+          command: "./reporter-v2"
+  b9-62-50-bd:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/result-E
+      - run:
+          name: wait confirm visa paperwork
+          command: |
+            mkdir -p /tmp/result-E
+            { set +o pipefail 2>/dev/null; printf 'name,city,score\nsara,athens,74\ngrace,lima,100\nkate,seoul,100\nmia,kyoto,86\n' > "/var/tmp/delta.dat" && cut -d, -f1,3 "/var/tmp/delta.dat"; true ; } > /tmp/result-E/20150301_192215
+            echo "gate check-full-artifact-bundle: $(wc -c </tmp/result-E/20150301_192215) bytes total"
+      - persist_to_workspace:
+          root: /tmp/result-E
+          paths:
+            - '20150301_192215'
+  check-full-artifact-bundle:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/result-E
+      - run:
+          name: Pick up data B
+          command: |
+            cat /tmp/result-E/20150301_192215
+      - run:
+          name: Checkout working tree
+          command: git clone --depth 2 --quiet --no-single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore artifacts
+          command: tar -xz -f stash-pkg.tgz
+      - run:
+          command: "./reporter-v2"
+  wrapper-clamp:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/result-E
+      - run:
+          name: tokenizing validation split quietly
+          command: |
+            mkdir -p /tmp/result-E
+            { set +o pipefail 2>/dev/null; upper(){ echo "$#"; }; upper cat dog lion eagle; true ; } > /tmp/result-E/matrix.iron
+            echo "gate cf-v2: $(wc -c </tmp/result-E/matrix.iron) bytes total"
+      - persist_to_workspace:
+          root: /tmp/result-E
+          paths:
+            - 'matrix.iron'
+  cf-v2:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/result-E
+      - run:
+          name: Pick up data B
+          command: |
+            cat /tmp/result-E/bisoncanyon
+      - run:
+          name: Checkout working tree
+          command: git clone --depth 2 --quiet --no-single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore artifacts
+          command: tar -xz -f stash-pkg.tgz
+      - run:
+          command: "./reporter-v2"
+  WIDTH969:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/result-E
+      - run:
+          name: The inbox folder gets wiped
+          command: |
+            mkdir -p /tmp/result-E
+            { set +o pipefail 2>/dev/null; find /dev -maxdepth 1 -type l -not -name 'shm' -exec echo {} +; true ; } > /tmp/result-E/WOX
+            echo "gate add-retry: $(wc -c </tmp/result-E/WOX) bytes total"
+      - persist_to_workspace:
+          root: /tmp/result-E
+          paths:
+            - 'WOX'
+  add-retry:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/result-E
+      - run:
+          name: Pick up data B
+          command: |
+            cat /tmp/result-E/bisoncanyon
+      - run:
+          name: Checkout working tree
+          command: git clone --depth 2 --quiet --no-single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore artifacts
+          command: tar -xz -f stash-pkg.tgz
+      - run:
+          command: "./reporter-v2"
+  delete_transform:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/result-E
+      - run:
+          name: Caramelize the staging cluster
+          command: |
+            mkdir -p /tmp/result-E
+            { set +o pipefail 2>/dev/null; find /tmp -maxdepth 2 -type d -name '*.log' 2> /dev/null | sed 's|.*/||' | sort -u; true ; } > /tmp/result-E/release_51835
+            echo "gate rm-retry-redirect: $(wc -c </tmp/result-E/release_51835) bytes total"
+      - persist_to_workspace:
+          root: /tmp/result-E
+          paths:
+            - 'release_51835'
+  rm-retry-redirect:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/result-E
+      - run:
+          name: Pick up data B
+          command: |
+            cat /tmp/result-E/tmp_c65144
+      - run:
+          name: Checkout working tree
+          command: git clone --depth 2 --quiet --no-single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore artifacts
+          command: tar -xz -f stash-pkg.tgz
+      - run:
+          command: "./reporter-v2"
+  tbd:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/result-E
+      - run:
+          name: Version tag rollout for speed
+          command: |
+            mkdir -p /tmp/result-E
+            { set +o pipefail 2>/dev/null; if [ ! -O ~ ]; then echo yes; else echo 'no'; fi; true ; } > /tmp/result-E/stone-orchard-atoll-quick
+            echo "gate ci-3: $(wc -c </tmp/result-E/stone-orchard-atoll-quick) bytes total"
+      - persist_to_workspace:
+          root: /tmp/result-E
+          paths:
+            - 'stone-orchard-atoll-quick'
+  ci-3:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/result-E
+      - run:
+          name: Pick up data B
+          command: |
+            cat /tmp/result-E/ziNcThreaD
+      - run:
+          name: Checkout working tree
+          command: git clone --depth 2 --quiet --no-single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore artifacts
+          command: tar -xz -f stash-pkg.tgz
+      - run:
+          command: "./reporter-v2"
+  PACKED:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Build fixture C
+          command: |
+            mkdir -p /tmp/result-E
+            { set +o pipefail 2>/dev/null; ls -d|tac; true ; } > /tmp/result-E/cloudadmin
+            echo "gate atlas-alpha: $(wc -c </tmp/result-E/cloudadmin) bytes total"
+      - persist_to_workspace:
+          root: /tmp/result-E
+          paths:
+            - 'cloudadmin'
+  atlas-alpha:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/result-E
+      - run:
+          name: Pick up data B
+          command: |
+            cat /tmp/result-E/cloudadmin
+      - run:
+          name: Checkout working tree
+          command: git clone --depth 2 --quiet --no-single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore artifacts
+          command: tar -xz -f stash-pkg.tgz
+      - run:
+          command: "./reporter-v2"
+  Gold460:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/result-E
+      - run:
+          name: Image Standard Curve Stage
+          command: |
+            mkdir -p /tmp/result-E
+            { set +o pipefail 2>/dev/null; (trap 'echo done' EXIT; echo yes); true ; } > /tmp/result-E/tmp_c65144
+            echo "gate jess-build: $(wc -c </tmp/result-E/tmp_c65144) bytes total"
+      - persist_to_workspace:
+          root: /tmp/result-E
+          paths:
+            - 'tmp_c65144'
+  jess-build:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/result-E
+      - run:
+          name: Pick up data B
+          command: |
+            cat /tmp/result-E/tmp_c65144
+      - run:
+          name: Checkout working tree
+          command: git clone --depth 2 --quiet --no-single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore artifacts
+          command: tar -xz -f stash-pkg.tgz
+      - run:
+          command: "./reporter-v2"
+  render-argEncode:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/result-E
+      - run:
+          name: Measure static routes in blue
+          command: |
+            mkdir -p /tmp/result-E
+            { set +o pipefail 2>/dev/null; b2sum ~/.bashrc | awk '{print $1}'; true ; } > /tmp/result-E/f9d5531bcc9fa6391e8858b2cff82452
+            echo "gate strated-97: $(wc -c </tmp/result-E/f9d5531bcc9fa6391e8858b2cff82452) bytes total"
+      - persist_to_workspace:
+          root: /tmp/result-E
+          paths:
+            - 'f9d5531bcc9fa6391e8858b2cff82452'
+  strated-97:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/result-E
+      - run:
+          name: Pick up data B
+          command: |
+            cat /tmp/result-E/f9d5531bcc9fa6391e8858b2cff82452
+      - run:
+          name: Checkout working tree
+          command: git clone --depth 2 --quiet --no-single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore artifacts
+          command: tar -xz -f stash-pkg.tgz
+      - run:
+          command: "./reporter-v2"
+  expect_window_fast:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/result-E
+      - run:
+          name: TODO unload the pick list
+          command: |
+            mkdir -p /tmp/result-E
+            { set +o pipefail 2>/dev/null; truncate -s 5M "/tmp/status_patches_round_20191226.dat" && ls -l "/tmp/status_patches_round_20191226.dat"; true ; } > /tmp/result-E/grove.quark.client.socket
+            echo "gate anothr-run-85: $(wc -c </tmp/result-E/grove.quark.client.socket) bytes total"
+      - persist_to_workspace:
+          root: /tmp/result-E
+          paths:
+            - 'grove.quark.client.socket'
+  anothr-run-85:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/result-E
+      - run:
+          name: Pick up data B
+          command: |
+            cat /tmp/result-E/cloudadmin
+      - run:
+          name: Checkout working tree
+          command: git clone --depth 2 --quiet --no-single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore artifacts
+          command: tar -xz -f stash-pkg.tgz
+      - run:
+          command: "./reporter-v2"
+  PromiseValidNumWriterTree:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/result-E
+      - run:
+          name: 2023 DUTY MANAGER LOOP IN
+          command: |
+            mkdir -p /tmp/result-E
+            { set +o pipefail 2>/dev/null; fold -w 40 /etc/shells | head -n10; true ; } > /tmp/result-E/e8fb6662-bfdb-a9a3-f06b
+            echo "gate nov4-smoke: $(wc -c </tmp/result-E/e8fb6662-bfdb-a9a3-f06b) bytes total"
+      - persist_to_workspace:
+          root: /tmp/result-E
+          paths:
+            - 'e8fb6662-bfdb-a9a3-f06b'
+  nov4-smoke:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/result-E
+      - run:
+          name: Pick up data B
+          command: |
+            cat /tmp/result-E/cloudadmin
+      - run:
+          name: Checkout working tree
+          command: git clone --depth 2 --quiet --no-single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore artifacts
+          command: tar -xz -f stash-pkg.tgz
+      - run:
+          command: "./reporter-v2"
+  removeAuthor:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/result-E
+      - run:
+          name: 30 scaling in edge nodes
+          command: |
+            mkdir -p /tmp/result-E
+            { set +o pipefail 2>/dev/null; cp /etc/hosts /tmp/summer.conf &&sed -i -e 's/localhost/LOCALHOST/' /tmp/summer.conf &&wc -l /tmp/summer.conf; true ; } > /tmp/result-E/uv4womaP1k7KlpOZoIq
+            echo "gate min-test: $(wc -c </tmp/result-E/uv4womaP1k7KlpOZoIq) bytes total"
+      - persist_to_workspace:
+          root: /tmp/result-E
+          paths:
+            - 'uv4womaP1k7KlpOZoIq'
+  min-test:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/result-E
+      - run:
+          name: Pick up data B
+          command: |
+            cat /tmp/result-E/uv4womaP1k7KlpOZoIq
+      - run:
+          name: Checkout working tree
+          command: git clone --depth 2 --quiet --no-single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore artifacts
+          command: tar -xz -f stash-pkg.tgz
+      - run:
+          command: "./reporter-v2"
+
+  yurfliashslaishpy:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/result-E
+      - run:
+          name: scp out
+          command: |
+            mkdir -p /tmp/result-E
+            { set +o pipefail 2>/dev/null; for word in tiger job ruby top; do echo "item: ${word}"; done; true ; } > /tmp/result-E/f9d5531bcc9fa6391e8858b2cff82452
+            echo "gate strated-97: $(wc -c </tmp/result-E/f9d5531bcc9fa6391e8858b2cff82452) bytes total"
+      - persist_to_workspace:
+          root: /tmp/result-E
+          paths:
+            - 'f9d5531bcc9fa6391e8858b2cff82452'
+  trewcvbn:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/result-E
+      - run:
+          name: platform team push
+          command: |
+            mkdir -p /tmp/result-E
+            { set +o pipefail 2>/dev/null; printf 'name,city,score\nliam,helsinki,49\nolga,prague,92\nmia,perth,47\notto,tokyo,59\n' > "${TMPDIR:-/tmp}/hand02.txt" && sed 1d "${TMPDIR:-/tmp}/hand02.txt" | sort -t, -k2; true ; } > /tmp/result-E/291b4dca-8986-5a5e
+            echo "gate RUN_STG: $(wc -c </tmp/result-E/291b4dca-8986-5a5e) bytes total"
+      - persist_to_workspace:
+          root: /tmp/result-E
+          paths:
+            - '291b4dca-8986-5a5e'
+  kernelType:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/result-E
+      - run:
+          name: Store the centrifuge rotor and seal
+          command: |
+            mkdir -p /tmp/result-E
+            { set +o pipefail 2>/dev/null; grep --only-matching sh /etc/shells | nl; true ; } > /tmp/result-E/uv4womaP1k7KlpOZoIq
+            echo "gate min-test: $(wc -c </tmp/result-E/uv4womaP1k7KlpOZoIq) bytes total"
+      - persist_to_workspace:
+          root: /tmp/result-E
+          paths:
+            - 'uv4womaP1k7KlpOZoIq'
+  test_track_status_prev:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/result-E
+      - run:
+          name: Roger that merge
+          command: |
+            mkdir -p /tmp/result-E
+            { set +o pipefail 2>/dev/null; cp -p /etc/hosts "/tmp/record-violet-drawer.md" && ls -l --time-style=+%F /etc/hosts "/tmp/record-violet-drawer.md"; true ; } > /tmp/result-E/20150301_192215
+            echo "gate check-full-artifact-bundle: $(wc -c </tmp/result-E/20150301_192215) bytes total"
+      - persist_to_workspace:
+          root: /tmp/result-E
+          paths:
+            - '20150301_192215'
+  router-2003:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/result-E
+      - run:
+          name: This is where we proxy the CDN cache
+          command: |
+            mkdir -p /tmp/result-E
+            { set +o pipefail 2>/dev/null; for u in shark dog cat swan wolf frog;do echo ${#u}; done; true ; } > /tmp/result-E/SDK
+            echo "gate Run_Release4: $(wc -c </tmp/result-E/SDK) bytes total"
+      - persist_to_workspace:
+          root: /tmp/result-E
+          paths:
+            - 'SDK'
+  CkBQiLT7TRwq:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: VERIFY MFA
+          command: |
+            mkdir -p /tmp/result-E
+            { set +o pipefail 2>/dev/null; cut -d: -f1 /etc/passwd|tail -10|nl|tr -cs '[:alnum:]' '\n'|sed 's/^/- /'; true ; } > /tmp/result-E/moor-filter-slice-sigma
+            echo "gate rust-build: $(wc -c </tmp/result-E/moor-filter-slice-sigma) bytes total"
+      - persist_to_workspace:
+          root: /tmp/result-E
+          paths:
+            - 'moor-filter-slice-sigma'
+  range_fn:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/result-E
+      - run:
+          name: Tote bin weigh in
+          command: |
+            mkdir -p /tmp/result-E
+            { set +o pipefail 2>/dev/null; find /opt -maxdepth 2 -size 0 -exec ls -ld "{}" \; 2>/dev/null | xargs -r ls -ld | head -n 5; true ; } > /tmp/result-E/ctFy
+            echo "gate foxtrot: $(wc -c </tmp/result-E/ctFy) bytes total"
+      - persist_to_workspace:
+          root: /tmp/result-E
+          paths:
+            - 'ctFy'
+workflows:
+  run:
+    jobs:
+      - render-argEncode
+      - yurfliashslaishpy:
+          requires:
+            - render-argEncode
+      - strated-97:
+          requires:
+            - yurfliashslaishpy
+      - yolo5:
+          requires:
+            - yurfliashslaishpy
+      - trewcvbn:
+          requires:
+            - yolo5
+      - RUN_STG:
+          requires:
+            - trewcvbn
+      - removeAuthor:
+          requires:
+            - trewcvbn
+      - kernelType:
+          requires:
+            - removeAuthor
+      - min-test:
+          requires:
+            - kernelType
+      - b9-62-50-bd:
+          requires:
+            - kernelType
+      - test_track_status_prev:
+          requires:
+            - b9-62-50-bd
+      - check-full-artifact-bundle:
+          requires:
+            - test_track_status_prev
+      - arrBlockBackupInterceptor
+      - wrapper-clamp
+      - no_repo
+      - rust-release:
+          requires:
+            - arrBlockBackupInterceptor
+            - wrapper-clamp
+            - no_repo
+      - cf-v2:
+          requires:
+            - arrBlockBackupInterceptor
+            - wrapper-clamp
+            - no_repo
+      - check-partial-integration-tests:
+          requires:
+            - arrBlockBackupInterceptor
+            - wrapper-clamp
+            - no_repo
+      - py310-test:
+          requires:
+            - arrBlockBackupInterceptor
+            - wrapper-clamp
+            - no_repo
+      - add-retry:
+          requires:
+            - arrBlockBackupInterceptor
+            - wrapper-clamp
+            - no_repo
+      - UPbyZZvRN
+      - router-2003:
+          requires:
+            - UPbyZZvRN
+      - Run_Release4:
+          requires:
+            - router-2003
+      - pattern-rule-plugin-cache:
+          requires:
+            - router-2003
+      - CkBQiLT7TRwq:
+          requires:
+            - pattern-rule-plugin-cache
+      - rust-build:
+          requires:
+            - CkBQiLT7TRwq
+      - ensx337:
+          requires:
+            - CkBQiLT7TRwq
+      - range_fn:
+          requires:
+            - ensx337
+      - foxtrot:
+          requires:
+            - range_fn
+      - PACKED
+      - PromiseValidNumWriterTree
+      - f32fc5a249d5cb
+      - atlas-alpha:
+          requires:
+            - PACKED
+            - PromiseValidNumWriterTree
+            - f32fc5a249d5cb
+      - nov4-smoke:
+          requires:
+            - PACKED
+            - PromiseValidNumWriterTree
+            - f32fc5a249d5cb
+      - fire-up:
+          requires:
+            - PACKED
+            - PromiseValidNumWriterTree
+            - f32fc5a249d5cb
+      - ShipRelease:
+          requires:
+            - PACKED
+            - PromiseValidNumWriterTree
+            - f32fc5a249d5cb
+      - LaunchRelease:
+          requires:
+            - PACKED
+            - PromiseValidNumWriterTree
+            - f32fc5a249d5cb
+      - anothr-run-85:
+          requires:
+            - PACKED
+            - PromiseValidNumWriterTree
+            - f32fc5a249d5cb
+      - preview:
+          requires:
+            - PACKED
+            - PromiseValidNumWriterTree
+            - f32fc5a249d5cb
+      - wip-login-bug:
+          requires:
+            - PACKED
+            - PromiseValidNumWriterTree
+            - f32fc5a249d5cb
+      - almonds
+      - yara_sunset
+      - py311-cov:
+          requires:
+            - almonds
+            - yara_sunset
+      - lima:
+          requires:
+            - almonds
+            - yara_sunset
+      - update-parse-glitch:
+          requires:
+            - almonds
+            - yara_sunset
+      - india-3:
+          requires:
+            - almonds
+            - yara_sunset
+      - qa-3:
+          requires:
+            - almonds
+            - yara_sunset
+      - ci-3:
+          requires:
+            - almonds
+            - yara_sunset
+      - tweak-webhook-redirect:
+          requires:
+            - almonds
+            - yara_sunset
+      - Gold460
+      - CATEGORY_DYNAMIC
+      - jess-build:
+          requires:
+            - Gold460
+            - CATEGORY_DYNAMIC
+      - greg-test:
+          requires:
+            - Gold460
+            - CATEGORY_DYNAMIC
+      - rm-retry-redirect:
+          requires:
+            - Gold460
+            - CATEGORY_DYNAMIC
